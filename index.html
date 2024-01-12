@@ -1,227 +1,508 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        
-        :root {
-            --red: #E80537;
-            --red-dark: #74031C;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
 
-        body {
-            position: relative;
-            background: var(--red);
-            min-height: 100vh;
-        }
+<style>
+@font-face {
+    font-family: Faktum;
+    src: url('./Faktum-Regular.otf') format('opentype');
+    font-weight: 400;
+}
 
-        /* Rastreamento */
+@font-face {
+    font-family: Faktum;
+    src: url('./Faktum-Bold.otf') format('opentype');
+    font-weight: 700;
+}
 
-        .rastreamento { 
-            position: relative;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            gap: 50px;
-        }
+@font-face {
+    font-family: Faktum;
+    src: url('./Faktum-SemiBold.otf') format('opentype');
+    font-weight: 600;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: var(--red); 
+    border-radius: 6px; 
+    border: 0px solid #F5F5F5; 
+}
 
-        .rastreamento__graf--1, .rastreamento__graf--2 {
-            position: absolute;
-            height: 300px;
-            top: 0;
-            object-fit: contain;
-        }
-        
-        .rastreamento__graf--1 {
-            right: 0;
-        }
-        
-        .rastreamento__graf--2 {
-            left: 0;
-        }
+::-webkit-scrollbar {
+    width: 6px; 
+    height: 12px;
+    background-color: #F5F5F5;
+    border-radius: 6px; 
+}
 
-        .rastreamento__text {
-            background: var(--red-dark);
-            padding: 12px 30px;
-            margin: auto;
-            height: max-content;
-            width: max-content;
-            color: white;
-            font-size: 34px;
-            font-weight: 700;
-            z-index: 1;
-        }
+::-webkit-scrollbar-thumb {
+    background-color: #cdcdcd; 
+    border-radius: 6px; 
+    border: 0px solid #F5F5F5; 
+}
 
-        /*  */
+::-webkit-scrollbar-corner {
+    background-color: transparent; 
+}
 
-        .width {
-            width: calc(100% - 200px);
-            margin: auto;
-        }
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Faktum', sans-serif !important;
+}
 
-        .container {
-            display: grid;
-            grid-template-columns: 1fr;
-        }
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
 
-        .sobre {
-            position: relative;
-            border-radius: 50px 50px 0 0;
-            background: white;
-        }
-        
-        .sobre__container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 300px;
-            gap: 40px;
-            bottom: 0;
-            content: '';
-            padding: 60px 140px 40px 140px;
-            width: 100%;
-            max-width: 1500px;
-            margin: auto;
-        }
+:root {
+    --red: #E80537;
+    --red-dark: #74031C;
+}
 
-        .sobre__card {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            max-width: 350px;
-            height: 200px;
-        }
+body {
+    position: relative;
+    background: #FFAC66;
+    min-height: 100vh;
+}
 
-        .sobre__title {
-            color: var(--red);
-            font-size: 16px;
-        }
+:root {
+    --status__timer: .5s
+}
 
-        .sobre__text {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            color: black;
-            font-weight: 600;
-        }
+/* Rastreamento */
 
-        /* Status */
+.rastreamento { 
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 50px;
+    background: var(--red);
+}
 
-        .status {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            gap: 50px;
-            width: 100%;
-            background: #FFAC66;
-            padding: 0 100px;
-            min-height: 50vh;
-        }
-        
-        .status__container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 1vw;
-        }
+.rastreamento__graf--1, .rastreamento__graf--2 {
+    position: absolute;
+    height: 300px;
+    top: 0;
+    object-fit: contain;
+}
 
-        .status__container::after {
-            content: '';
-            position: absolute;
-            top: 0px;
-            z-index: 0;
-            width: calc(100% - 120px);
-            height: 6px;
-            border-radius: 10vw;
-            background: var(--red);
-        }
+.rastreamento__graf--1 {
+    right: 0;
+}
 
-        .status__card {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border-radius: 22px;
-            padding: 20px;
-            margin-top: 16px;
-            max-height: 164px;
-            z-index: 1;
-        }
+.rastreamento__graf--2 {
+    left: 0;
+}
 
-        .status__stage {
-            display: flex;
-            align-items: center;
-            height: 200px;
-        }
+.rastreamento__text {
+    background: var(--red-dark);
+    padding: 12px 30px;
+    margin: auto;
+    height: max-content;
+    width: max-content;
+    color: white;
+    font-size: 34px;
+    font-weight: 700;
+    z-index: 1;
+}
 
-        .status__stage p {
-            font-size: 20px;
-            font-weight: 500;
-            text-align: center;
-        }
+/*  */
 
-        .status__icon {
-            position: absolute;
-            margin: auto;
-            background: var(--red);
-            padding: 16px;
-            border-radius: 14px;
-            top: -50px;
-        }
+.width {
+    width: calc(100% - 200px);
+    margin: auto;
+}
 
-        .status__icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+.container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    z-index: 1;
+}
 
-        .status__data {
-            position: absolute;
-            bottom: -46px;
-        }
-        
-        .status__data p {
-            font-weight: 500;
-            text-align: center;
-        }
+.sobre {
+    position: relative;
+    border-radius: 50px 50px 0 0;
+    background: white;
+}
 
-        .status__btn {
-            background: var(--red);
-            border-radius: 10px;
-            padding: 12px 30px;
-            color: white;
-            width: max-content;
-            margin: auto;
-            border: none;
-            font-size: 22px;
-            transition: .2s;
-            cursor: pointer;
-            margin-top: 100px;
-        }
+.sobre__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 300px;
+    gap: 1.4vw;
+    bottom: 0;
+    content: '';
+    padding: 60px 140px 40px 140px;
+    width: 100%;
+    max-width: 1500px;
+    margin: auto;
+}
 
-        .status__btn:hover {
-            background: var(--red-dark);
-            transition: .2s;
-        }
+.sobre__card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 350px;
+    height: 200px;
+}
+
+.sobre__title {
+    color: var(--red);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.sobre__text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 1rem;
+    color: black;
+    font-weight: 600;
+}
+
+/* Status */
+
+.status {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    background: #FFAC66;
+    padding: 0 100px;
+    min-height: 50vh;
+}
+
+.status__container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1vw;
+    margin: 0 auto;
+    min-height: 300px;
+    min-width: 202px;
+}
+
+.status__card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 22px;
+    padding: 20px;
+    margin-top: 16px;
+    height: 164px;
+    width: 100%;
+    z-index: 1;
+    transition: var(--status__timer);
+}
+
+.status__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 12vw;
+    z-index: 3;
+    gap: 18px;
+}
+
+.timeline .status__timeline{
+    opacity: 1 !important; 
+}
+
+.status__timeline {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    background: var(--red);
+    transition: .01s;
+    height: 4px;
+    width: 100%;
+    left: 6vw;
+    opacity: 0;
+    border: 10px;
+}
+
+.status__stage {
+    display: flex;
+    align-items: center;
+}
+
+.status__stage p {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.status__icon {
+    position: absolute;
+    margin: auto;
+    background: var(--red);
+    padding: 16px;
+    border-radius: 14px;
+    top: -50px;
+    width: 70px;
+    height: 70px;
+    transition: var(--status__timer) ;
+    border: 1px solid transparent;
+}
+
+.status__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.status__data {
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.status__btn, .status__btn--tratar {
+    background: var(--red);
+    border-radius: 10px;
+    color: white;
+    width: max-content;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.status__btn--tratar {
+    background: #FF7500;
+    font-size: 1rem;
+    padding: 12px 14px;
+    transition: .2s;
+}
+
+.status__btn--tratar:hover {
+    background: #cb6003;
+    transition: .2s;
+}
+
+.status__btn {
+    font-size: 1.3rem;
+    background: var(--red);
+    padding: 12px 30px;
+    margin: auto;
+}
+
+.status__btn:hover {
+    background: var(--red-dark);
+    transition: .2s;
+}
+
+/* Classes de interação */
+
+.card-blocked.status__card {
+    background: var(--red-dark);
+}
+
+.card-blocked .status__icon {
+    background: var(--red-dark);
+}
+
+.card-blocked .status__icon, .card-approved .status__icon {
+    border: 1px solid white;
+}
+
+.card-approved.status__card, .card-approved .status__icon {
+    background: #163516;
+    transition: var(--status__timer);
+}
+
+.card-approved .status__stage, .card-blocked .status__stage {
+    color: white;
+    transition: var(--status__timer);
+}
 
 
-    </style>
+.animation-card {
+    animation-name: animation;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation {
+    from {
+        opacity: 0;
+    }
+    
+    to {
+        opacity: 1 !important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    /* HTML */
+    html {
+        font-size: 14px;
+    }
+
+    /*  */
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'col1 .';
+    }
+
+    /* Rastreamento */
+    .rastreamento {
+        height: 100px;
+    }
+
+    .rastreamento__graf--1, .rastreamento__graf--2 {
+        height: 140px;  
+    }
+
+    .rastreamento__text {
+        font-size: 1.3rem;
+    }
+
+    /* Sobre */
+    .sobre  {
+        border-radius: 0 50px 0 0;
+    }
+
+    .sobre__container {
+        position: sticky;
+        top: 0;
+        flex-wrap: wrap;
+        padding: 50px 40px;
+        gap: 20px;
+    }
+
+    .sobre__card {
+        gap: 4px;
+        height: initial;
+    }
+
+    .status__content {
+        width: 180px;
+    }
+
+    /* Status */
+    .status__timeline {
+        left: -12px;
+        top: 50px;
+        width: 4px;
+        height: 100%;
+    }
+
+    .status {
+        padding: 30px;
+        border-radius: 50px 0 0 0;
+        grid-area: col1;
+        gap: 140px;
+    }
+
+    .status__card { 
+        border-radius: 14px;
+        height: 70px;
+    }
+
+  
+
+    .status__container {
+        min-height: initial;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 0;
+        margin: auto;
+        padding-left: 22px;
+    }
+
+    .status__icon {
+        top: 13%;
+        left: -35px;
+        padding: 10px;
+        width: 50px;
+        border-radius: 10px;
+        height: 50px;
+    }
+
+    .status__card {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .status__data {
+        position: relative;
+        bottom: initial;
+    }
+    
+    .status__stage {
+        padding: 0 10px 0 16px;
+        height: initial;
+    }
+
+    .status__data p {
+        font-size: 0.9rem;
+    }
+
+    .status__container::after {
+        width: 4px;
+        left: 10px;
+        height: calc(100% - 174px);
+        top: 50px;
+    }
+
+    .card-blocked, .card-approved {
+        color: white;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Sobre */
+    .sobre {
+        position: relative;
+        border-radius: 30px 30px 0 0;
+    }
+
+    .sobre__container {
+        padding: 24px 20px;
+        justify-content: flex-start;
+    }
+    
+    /* Status */
+    
+    .status__container {
+        justify-content: flex-start;
+    }
+
+    .status {
+        border-radius: 0;
+    }
+
+    .status__card {
+        padding: 16px;
+    }
+}
+</style>
 </head>
 <body>
-
     <div class="rastreamento">
         <img class="rastreamento__graf--1" src="header__grafismo_01.svg" alt="Gráfismo">
         <img class="rastreamento__graf--2" src="header__grafismo_02.svg" alt="Gráfismo">
@@ -260,99 +541,129 @@
         </div>
 
         <div class="status">
-            <div class="status__container">
-                <div class="status__card" for="6">
-                        <div class="status__icon">
-                        <img src="car.svg" alt="">
-                    </div>
-                    <div class="status__stage">
-                        <p>Produto coletado pela Mobi</p>
-                    </div>
-                    <div class="status__data">
-                        <p id="hour">XX/XX/20XX</p>
-                        <p id="time">XX:XX:XX</p>
-                    </div>
-                </div>
-
-                <!--  -->
-                
-                <div class="status__card" for="6">
-                        <div class="status__icon">
-                        <img src="car.svg" alt="">
-                    </div>
-                    <div class="status__stage">
-                        <p>Produto coletado pela Mobi</p>
-                    </div>
-                    <div class="status__data">
-                        <p id="hour">XX/XX/20XX</p>
-                        <p id="time">XX:XX:XX</p>
-                    </div>
-                </div>
-
-                <!--  -->
-                <div class="status__card" for="6">
-                        <div class="status__icon">
-                        <img src="car.svg" alt="">
-                    </div>
-                    <div class="status__stage">
-                        <p>Produto coletado pela Mobi</p>
-                    </div>
-                    <div class="status__data">
-                        <p id="hour">XX/XX/20XX</p>
-                        <p id="time">XX:XX:XX</p>
-                    </div>
-                </div>
-
-                <!--  -->
-                <div class="status__card" for="6">
-                        <div class="status__icon">
-                        <img src="car.svg" alt="">
-                    </div>
-                    <div class="status__stage">
-                        <p>Produto coletado pela Mobi</p>
-                    </div>
-                    <div class="status__data">
-                        <p id="hour">XX/XX/20XX</p>
-                        <p id="time">XX:XX:XX</p>
-                    </div>
-                </div>
-
-                <!--  -->
-                <div class="status__card" for="6">
-                        <div class="status__icon">
-                        <img src="car.svg" alt="">
-                    </div>
-                    <div class="status__stage">
-                        <p>Produto coletado pela Mobi</p>
-                    </div>
-                    <div class="status__data">
-                        <p id="hour">XX/XX/20XX</p>
-                        <p id="time">XX:XX:XX</p>
-                    </div>
-                </div>
-
-                <!--  -->
-                <div class="status__card" for="6">
-                        <div class="status__icon">
-                        <img src="car.svg" alt="">
-                    </div>
-                    <div class="status__stage">
-                        <p>Produto coletado pela Mobi</p>
-                    </div>
-                    <div class="status__data">
-                        <p id="hour">XX/XX/20XX</p>
-                        <p id="time">XX:XX:XX</p>
-                    </div>
-                </div>
-
-                <!--  -->
-
-            </div>
-
+            <div class="status__container" id="status__cards"></div>
+            <!--  -->
             <button class="status__btn">Nova Pesquisa</button>
-
         </div>
     </div>
 
+    <script>
+        const cardsInfos = [
+            {
+                description: 'Produto coletado',
+                icon: 'car1.svg',
+                data: '01/01/2024',
+                hour: '06h29',
+                status: null,
+                att: true, // Para adicionar o botão de atualizar endereço
+            },
+            {
+                description: 'Preparado para envio',
+                icon: 'box.svg',
+                data: '04/01/2024',
+                hour: '05h02',
+                status: null,
+            },
+            {
+                description: 'Em transferência para seu destino',
+                icon: 'car.svg',
+                data: '07/01/2024',
+                hour: '15h02',
+                status: null,
+            },
+            {
+                description: 'Recebido na sua região',
+                icon: 'point.svg',
+                data: '10/01/2024',
+                hour: '18h20',
+                status: null,
+            },
+            {
+                description: 'Em rota de entrega',
+                icon: 'send.svg',
+                data: '13/01/2024',
+                hour: '19h54',
+                status: false, // Define a cor  e ícone do card.
+                /*
+                    false = Vermelho
+                    true = Verde
+                */
+            },
+            {
+                description: 'Comprovante de devolução digitalizado',
+                icon: 'error.svg',
+                data: '15/01/2024',
+                hour: '23h11',
+                status: true,
+                att: true, // Para adicionar o botão de atualizar endereço
+            },
+        ]
+
+        let counter = 0
+        const setTimer = 1000
+
+        const cardStatus = (el) => {
+            let icon
+            el.status === true ? icon = 'check.svg' : el.status === false ? icon = 'error.svg': icon = el.icon  
+            return `<img src="${icon}" alt="Card ícone">` 
+        }
+
+        const animationFunc = () => {
+            const el = cardsInfos[counter]
+          
+            // <img src="${el.status == false ? "error.svg" : el.status == true ? "check.svg" : el.icon}" alt="Card ícone">
+            document.getElementById('status__cards').innerHTML += `
+                <div class="status__content" id="card-${counter}">
+                    
+                    ${counter < cardsInfos.length - 1 ? '<div class="status__timeline"></div>' : ''}
+                    
+                    <div class="status__card ${el.status == false ? 'card-blocked' : el.status ? 'card-approved' : '' }">
+                        <div class="status__icon">`
+                            +
+                            cardStatus(el)
+                            +
+                        `</div>
+
+                        <div class="status__stage">
+                            <p>${el.description}</p>
+                        </div>
+                    </div>
+
+                    <div class="status__data">
+                        <p id="hour">${el.hour}</p>
+                        <p id="time">${el.data}</p>
+                    </div>
+
+                    ${el.att ? '<button class="status__btn--tratar">Atualizar endereço</button>' : ''}
+
+                </div>
+                `
+            const animation = document.getElementById(`card-${counter}`)
+
+            animation.classList.add('animation-card')
+
+            setTimeout(() => {
+                animation.classList.remove('animation-card')
+            }, setTimer - 80);
+            
+            counter != 0 ? document.getElementById(`card-${counter - 1}`).classList.add('timeline') : ''
+
+            counter++
+
+            if(counter == 6) {
+                clearInterval(addCardsTimer)
+            }
+        }
+
+       
+
+
+        animationFunc()
+        
+        const addCardsTimer = setInterval(() => {
+            animationFunc()
+        }, setTimer);
+
+    </script>
 </body>
 </html>

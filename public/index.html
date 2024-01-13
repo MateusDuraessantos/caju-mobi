@@ -311,24 +311,24 @@ body {
 
 /* Classes de interação */
 
-.card-blocked.status__card {
+.status__card--blocked.status__card {
     background: var(--red-dark);
 }
 
-.card-blocked .status__icon {
+.status__card--blocked .status__icon {
     background: var(--red-dark);
 }
 
-.card-blocked .status__icon, .card-approved .status__icon {
+.status__card--blocked .status__icon, .status__card--approved .status__icon {
     border: 1px solid white;
 }
 
-.card-approved.status__card, .card-approved .status__icon {
+.status__card--approved.status__card, .status__card--approved .status__icon {
     background: #163516;
     transition: var(--status__timer);
 }
 
-.card-approved .status__stage, .card-blocked .status__stage {
+.status__card--approved .status__stage, .status__card--blocked .status__stage {
     color: white;
     transition: var(--status__timer);
 }
@@ -464,7 +464,7 @@ body {
         top: 50px;
     }
 
-    .card-blocked, .card-approved {
+    .status__card--blocked, .status__card--approved {
         color: white;
     }
 }
@@ -542,20 +542,94 @@ body {
 
         <div class="status">
             <div class="status__container" id="status__cards"></div>
-            <!--  -->
             <button class="status__btn">Nova Pesquisa</button>
         </div>
+
+        <!--
+            AVISO!
+            AVISO!
+            AVISO!
+
+            Pensando que os dados dos cards, virão do backend, os cards foram pensados para ser criados com dados de algum objeto/JSON.
+            
+            Caso aja a necessidade de cards estátios direto no HTML:
+                Passo 1: comentar todo o script
+                Passo 2: Comentar div acima
+                Passo 3: Descomentar div abaixo -->
+        
+       <!--  <div class="status">
+            <div class="status__container">
+                <div class="status__content">
+                    <div class="status__timeline" style="opacity: 1;"></div>
+                    <div class="status__card">
+                        <div class="status__icon">
+                            <img src="./box.svg" alt="Card ícone">
+                        </div>
+                        <div class="status__stage">
+                            <p>Produto coletado</p>
+                        </div>
+                    </div>
+                    <div class="status__data">
+                        <p>06h29</p>
+                        <p>01/01/2024</p>
+                    </div>
+                </div>
+
+                <div class="status__content">
+                    <div class="status__timeline" style="opacity: 1;"></div>
+                    <div class="status__card status__card--approved">
+                        <div class="status__icon">
+                            <img src="./check.svg" alt="Card ícone">
+                        </div>
+                        <div class="status__stage">
+                            <p>Produto coletado</p>
+                        </div>
+                    </div>
+                    <div class="status__data">
+                        <p>06h29</p>
+                        <p>01/01/2024</p>
+                    </div>
+                </div>
+
+                <div class="status__content">
+                    <div class="status__timeline" style="opacity: 0;"></div>
+                    <div class="status__card status__card--blocked">
+                        <div class="status__icon">
+                            <img src="./error.svg" alt="Card ícone">
+                        </div>
+                        <div class="status__stage">
+                            <p>Produto coletado</p>
+                        </div>
+                    </div>
+                    <div class="status__data">
+                        <p>06h29</p>
+                        <p>01/01/2024</p>
+                    </div>
+                    <button class="status__btn--tratar">Atualizar endereço</button>
+                </div>
+            </div>
+            <button class="status__btn">Nova Pesquisa</button>
+        </div> -->
     </div>
 
     <script>
-        const cardsInfos = [
+        const cardsInfos = [ // Informações dos cards
             {
-                description: 'Produto coletado',
-                icon: 'car1.svg',
-                data: '01/01/2024',
-                hour: '06h29',
-                status: null,
-                att: true, // Para adicionar o botão de atualizar endereço
+                description: 'Produto coletado', // Texto dentro do card
+                icon: 'car1.svg', // Caminho da imagem/icone
+                data: '01/01/2024', // Define data
+                hour: '06h29', // Define hora
+                status: null, // Altera cor do card 
+                    /*
+                        null: Card ficará com a cor padrão
+                        false: Card ficará vermelha
+                        true: Card ficará verde
+                    */ 
+                att: true, // Adicionar botão "atualizar endereço" 
+                    /*
+                        true: Adiciona o botão
+                        caso não existir "att", não adiciona o botão
+                    */
             },
             {
                 description: 'Preparado para envio',
@@ -579,91 +653,58 @@ body {
                 status: null,
             },
             {
-                description: 'Em rota de entrega',
-                icon: 'send.svg',
-                data: '13/01/2024',
-                hour: '19h54',
-                status: false, // Define a cor  e ícone do card.
-                /*
-                    false = Vermelho
-                    true = Verde
-                */
-            },
-            {
                 description: 'Comprovante de devolução digitalizado',
                 icon: 'error.svg',
                 data: '15/01/2024',
                 hour: '23h11',
                 status: true,
-                att: true, // Para adicionar o botão de atualizar endereço
+                att: true, 
+            },
+            {
+                description: 'Em rota de entrega',
+                icon: 'send.svg',
+                data: '13/01/2024',
+                hour: '19h54',
+                status: false,
             },
         ]
 
-        let counter = 0
-        const setTimer = 1000
-
-        const cardStatus = (el) => {
-            let icon
-            el.status === true ? icon = 'check.svg' : el.status === false ? icon = 'error.svg': icon = el.icon  
-            return `<img src="${icon}" alt="Card ícone">` 
+        const setIcon = (el) => {
+            if (el.status === true) return 'check.svg'; 
+            else if (el.status === false) return 'error.svg'; 
+            else return el.icon
         }
+        const setTimer = 1000 // Tempo da animação
+        let counter = 0
 
         const animationFunc = () => {
             const el = cardsInfos[counter]
-          
-            // <img src="${el.status == false ? "error.svg" : el.status == true ? "check.svg" : el.icon}" alt="Card ícone">
             document.getElementById('status__cards').innerHTML += `
                 <div class="status__content" id="card-${counter}">
-                    
                     ${counter < cardsInfos.length - 1 ? '<div class="status__timeline"></div>' : ''}
-                    
-                    <div class="status__card ${el.status == false ? 'card-blocked' : el.status ? 'card-approved' : '' }">
-                        <div class="status__icon">`
-                            +
-                            cardStatus(el)
-                            +
-                        `</div>
-
+                    <div class="status__card ${el.status == false ? 'status__card--blocked' : el.status ? 'status__card--approved' : '' }">
+                        <div class="status__icon"><img src="${setIcon(el)}" alt="Card ícone"></div>
                         <div class="status__stage">
                             <p>${el.description}</p>
                         </div>
                     </div>
-
                     <div class="status__data">
-                        <p id="hour">${el.hour}</p>
-                        <p id="time">${el.data}</p>
+                        <p>${el.hour}</p>
+                        <p>${el.data}</p>
                     </div>
-
                     ${el.att ? '<button class="status__btn--tratar">Atualizar endereço</button>' : ''}
-
                 </div>
                 `
             const animation = document.getElementById(`card-${counter}`)
-
             animation.classList.add('animation-card')
-
-            setTimeout(() => {
-                animation.classList.remove('animation-card')
-            }, setTimer - 80);
-            
-            counter != 0 ? document.getElementById(`card-${counter - 1}`).classList.add('timeline') : ''
-
+            setTimeout(() => animation.classList.remove('animation-card') , setTimer - 80);
+            counter > 0 ? document.getElementById(`card-${counter - 1}`).classList.add('timeline') : ''
             counter++
-
-            if(counter == 6) {
-                clearInterval(addCardsTimer)
-            }
+            if(counter == cardsInfos.length) clearInterval(addCardsTimer)
         }
 
-       
-
-
         animationFunc()
-        
-        const addCardsTimer = setInterval(() => {
-            animationFunc()
-        }, setTimer);
-
+        const addCardsTimer = setInterval(animationFunc, setTimer);
     </script>
 </body>
 </html>

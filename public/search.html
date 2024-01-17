@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesquisa por NPC</title>
+<style>
+@font-face {
+    font-family: Faktum;
+    src: url('./Faktum-Regular.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Faktum;
+    src: url('./Faktum-Bold.otf') format('opentype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: Faktum;
+    src: url('./Faktum-SemiBold.otf') format('opentype');
+    font-weight: 600;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--red);
+    border-radius: 6px;
+    border: 0px solid #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 12px;
+    background-color: #F5F5F5;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cdcdcd;
+    border-radius: 6px;
+    border: 0px solid #F5F5F5;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Faktum', sans-serif !important;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --red: #E80537;
+    --red-dark: #74031C;
+}
+
+body {
+    position: relative;
+   
+}
+
+/* Container */
+
+.container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: var(--red);
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/*  */
+
+.graf--1, .graf--2 {
+    position: absolute;
+}
+
+.graf--1 {
+    left: -200px;
+    top: -126px;
+    width: 760px;
+}
+
+.graf--2 {
+    right: -280px;
+    bottom: -590px;
+    width: 1000px;
+}
+
+/* Rastreamento */
+
+.rastreamento__text {
+    position: absolute;
+    background: var(--red-dark);
+    padding: 12px 30px;
+    margin: auto;
+    top: 6vh;
+    height: max-content;
+    width: max-content;
+    color: white;
+    font-size: 34px;
+    font-weight: 700;
+    z-index: 1;
+}
+
+/* NPC */
+
+.npc {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100vw - 20px);
+}
+
+.npc__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 460px;
+    padding: 40px;
+    gap: 30px;
+}
+
+.npc__btn {
+    background: var(--red);
+    border-radius: 6px;
+    padding: 12px 0;
+    height: max-content;
+    width: 100%;
+    max-width: 244px;
+    color: white;
+    font-size: 22px;
+    font-weight: 900;
+    border: none;
+    transition: .2s;
+    cursor: pointer;
+}
+
+.npc__btn:hover {
+    background: #bf052d;
+    transition: .2s;
+}
+
+.npc__btn:focus {
+    background: var(--red-dark);
+    transition: .2s;
+}
+
+.npc__input {
+    border-width: 1px;
+    border-color: #FF7500;
+    border-style: solid;
+    height: 50px;
+    width: 380px;
+    font-size: 16px;
+    transition: .2s;
+    outline: 2px solid transparent;
+    padding: 0 14px;
+}
+
+.npc__input:hover {
+    outline: 2px solid #FF7500;
+    transition: .2s;
+}
+
+.npc__input:focus {
+    outline: 2px solid #FF7500;
+    color: #FF7500;
+    transition: .2s;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .graf--1 {
+        left: -100px;
+        top: -100px;
+        width: 460px;
+    }
+
+    .graf--2 {
+        right: -180px;
+        bottom: -190px;
+        width: 400px;
+    }
+
+    .npc__input {
+        width: 100%;
+    }
+
+    .npc__btn {
+        width: 100%;
+    }
+
+    .rastreamento__text {
+        font-size: 18px;
+    }
+
+    .npc__container {
+        padding: 28px 20px;
+    }
+
+    .npc {
+        height: 100vh;
+    }
+
+}
+</style>
+</head>
+
+<body>
+   <div class="container">
+        <div class="rastreamento__text">Rastreamento</div>
+        <img class="graf--1" src="./forma_da_castanha.svg">
+        <img class="graf--2" src="caju.svg">
+
+        <div class="npc">
+            <div class="npc__container">
+                <p>Pesquisa por NPC</p>
+                <input class="npc__input" type="text">
+                <button class="npc__btn">Pesquisar</button>
+            </div>
+        </div>
+   </div>
+</body>
+</html>
